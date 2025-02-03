@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestion Noël</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <h1>Espace Admin - Noël</h1>
+        <nav>
+            <ul>
+                <li><a href="#validation-depot" class="nav-link active">Validation des Dépôts</a></li>
+                <li><a href="#ajout-cadeau" class="nav-link">Ajouter un Cadeau</a></li>
+                <li><a href="#liste-cadeaux" class="nav-link">Liste des Cadeaux</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Section Validation des Dépôts -->
+        <section id="validation-depot">
+            <h2>Validation des Dépôts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Montant Déposé</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jean Dupont</td>
+                        <td>100 €</td>
+                        <td>
+                            <button class="btn-valider">Valider</button>
+                            <button class="btn-rejeter">Rejeter</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Marie Curie</td>
+                        <td>200 €</td>
+                        <td>
+                            <button class="btn-valider">Valider</button>
+                            <button class="btn-rejeter">Rejeter</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section Ajout de Cadeau -->
+        <section id="ajout-cadeau" style="display: none;">
+            <h2>Ajouter un Cadeau</h2>
+            <form>
+                <label for="nom-cadeau">Nom du Cadeau :</label>
+                <input type="text" id="nom-cadeau" name="nom-cadeau" required>
+
+                <label for="categorie">Catégorie :</label>
+                <select id="categorie" name="categorie">
+                    <option value="fille">Fille</option>
+                    <option value="garçon">Garçon</option>
+                    <option value="neutre">Neutre</option>
+                </select>
+
+                <label for="prix">Prix (€) :</label>
+                <input type="number" id="prix" name="prix" required min="0">
+
+                <label for="image-cadeau">Image du Cadeau :</label>
+                <input type="file" id="image-cadeau" name="image-cadeau" accept="image/*" required>
+
+                <button type="submit" class="btn-ajouter">Ajouter</button>
+            </form>
+        </section>
+
+        <!-- Section Liste des Cadeaux -->
+        <section id="liste-cadeaux" style="display: none;">
+            <h2>Liste des Cadeaux</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
+                        <th>Prix (€)</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Poupée Barbie</td>
+                        <td>Fille</td>
+                        <td>25</td>
+                        <td><img src="barbie.jpg" alt="Poupée Barbie" class="cadeau-img"></td>
+                        <td>
+                            <button class="btn-modifier" data-id="1">Modifier</button>
+                            <button class="btn-supprimer" data-id="1">Supprimer</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Voiture Télécommandée</td>
+                        <td>Garçon</td>
+                        <td>35</td>
+                        <td><img src="voiture.jpg" alt="Voiture Télécommandée" class="cadeau-img"></td>
+                        <td>
+                            <button class="btn-modifier" data-id="2">Modifier</button>
+                            <button class="btn-supprimer" data-id="2">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section Modification de Cadeau -->
+        <section id="modification-cadeau" style="display: none;">
+            <h2>Modifier un Cadeau</h2>
+            <form>
+                <label for="modif-nom-cadeau">Nom du Cadeau :</label>
+                <input type="text" id="modif-nom-cadeau" name="nom-cadeau" required>
+
+                <label for="modif-categorie">Catégorie :</label>
+                <select id="modif-categorie" name="categorie">
+                    <option value="fille">Fille</option>
+                    <option value="garçon">Garçon</option>
+                    <option value="neutre">Neutre</option>
+                </select>
+
+                <label for="modif-prix">Prix (€) :</label>
+                <input type="number" id="modif-prix" name="prix" required min="0">
+
+                <label for="modif-image-cadeau">Changer l'image :</label>
+                <input type="file" id="modif-image-cadeau" name="image-cadeau" accept="image/*">
+
+                <button type="submit" class="btn-ajouter">Enregistrer</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Gestion Noël. Tous droits réservés.</p>
+    </footer>
+    <script>
+        // Navigation entre les sections
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+
+                sections.forEach(section => section.style.display = 'none');
+                const target = document.querySelector(link.getAttribute('href'));
+                target.style.display = 'block';
+            });
+        });
+
+        // Gestion des boutons "Modifier"
+        const modifierButtons = document.querySelectorAll('.btn-modifier');
+        modifierButtons.forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                sections.forEach(section => section.style.display = 'none');
+                document.getElementById('modification-cadeau').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
